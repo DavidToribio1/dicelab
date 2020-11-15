@@ -11,14 +11,14 @@ public class Bins {
     public Bins(int minRoll, int maxRoll){
         this.maxRoll = maxRoll;
         this.minRoll = minRoll;
-        binArray = new int[maxRoll];
+        this.binArray = new int[maxRoll];
 
 
 
     }
     //
     public void incrementBin(int result){
-        binArray[result-2]++;
+        binArray[result]++;
     }
     public Integer getBin(int binId)
     {
