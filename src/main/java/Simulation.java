@@ -1,53 +1,48 @@
 public class Simulation {
 
     private Integer numDice;
-    private Integer numTosses;
+    private Integer numRuns;
     private Dice dice;
     private Bins bin;
 
-    public Simulation(int numDice, int numTosses) {
+    public Simulation(int numDice, int numRuns){
         this.numDice = numDice;
-        this.numTosses = numTosses;
+        this.numRuns = numRuns;
         dice = new Dice(numDice);
-        bin = new Bins(numDice, (numDice * 6)+ 1);
+        bin = new Bins(numDice,numDice*6);
     }
 
-    public void runSimulation() {
-        Integer result;
-        for (int i = 1; i <= numTosses; i++) {
-            result = dice.tossAndSum();
-            bin.incrementBin(result);
+    public void runSimulation(){
 
-
+        Integer throwResult;
+        for(int i=1; i<=numRuns; i++){
+            throwResult = dice.tossAndSum();
+            bin.incrementBin(throwResult);
         }
+    }
 
+    public void printResults(){
+        System.out.printf("***\n"+"Simulation of '%d' dice tossed for '%d' times\n"+"***\n\n", numDice, numRuns);
+        for(int i=numDice; i<=numDice*6;i++){
+            System.out.printf("%2d :% 9d: % 4.2f %s\n",i,bin.getBin(i-2),getPercentage(i),genStars(i));
         }
-
-        public void printResults(){
-            String finalResult;
-            finalResult = "***\n" +
-                    "Simulation of " + numDice + " dice tossed " + numTosses + " times.\n"
-                    + "***\n";
-            for (int i=numDice; i<=numDice*6; i++){
-                double average = bin.binArray[i];
-                 finalResult += i + " :   " + bin.binArray[i] + ": " + average + " "
-                    + geneStars(average) + "\n";
-
-
-            }
-                System.out.print(finalResult);
     }
 
-            public String geneStars(double average) {
-                String stars = "";
-                long dPercentage = Math.round(average * 100);
-
-                for (int i = 1; i <= dPercentage; i++) {
-                    stars += "*";
-
-                }
-                return stars;
-            }
-
-
+    public float getPercentage(int index){
+        float valueRolled = bin.getBin(index-2); //convert to flow, integer divided by integer will not get you a float...-_-
+        float x = valueRolled/numRuns;
+        return x;
     }
+
+    public String genStars(int index){
+        String stars = "";
+        float fPercentage = (getPercentage(index))*100;
+        Integer percentage = (int)fPercentage;
+        for(int i=1; i<=percentage; i++){
+            stars+="*";
+        }
+        return stars;
+    }
+
+
+}

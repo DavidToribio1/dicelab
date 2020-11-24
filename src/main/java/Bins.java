@@ -18,7 +18,7 @@ public class Bins {
     }
     //
     public void incrementBin(int result){
-        binArray[result]++;
+        binArray[result-2]++;
     }
     public Integer getBin(int binId)
     {
